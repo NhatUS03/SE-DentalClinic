@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nha Khoa Quốc Tế Y Đức</title>
+
+    <!-- 
+    - favicon
+  -->
+    <link rel="shortcut icon" href="image/dental-clinic.jpeg" type="image/svg+xml">
+
+    <!-- 
+    - custom css link
+  -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- 
+    - google font link
+  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Roboto:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--<title>Dashboard Sidebar Menu</title>-->
+</head>
+
+<body id="top">
+
+    <!-- 
+    - #HEADER
+  -->
+
+    <header class="header">
+
+        <div class="header-top">
+            <div class="container">
+
+                <ul class="contact-list">
+
+                    <li class="contact-item-mail">
+                        <ion-icon name="mail-outline"></ion-icon>
+
+                        <a href="mailto:yduc@.dental.vn" class="contact-link">yduc@.dental.vn</a>
+                    </li>
+
+                    <li class="contact-item-call">
+                        <ion-icon name="call-outline"></ion-icon>
+
+                        <a href="tel:0985.985.985" class="contact-link">0985.985.985</a>
+                    </li>
+                    <li class="nofication">
+                        <ion-icon name="notifications-outline"></ion-icon>
+                        <!-- <a href="notification" class="contact-link">Thông Báo</a> -->
+                    </li>
+                    <li class="message">
+                        <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                        <!-- <a href="message" class="contact-link">Tin Nhắn</a> -->
+                </ul>
+
+
+            </div>
+        </div>
+
+    </header>
+
+
+    <div class="sidebar">
+        <div class="logo-details">
+            <!-- <i class='bx bxl-c-plus-plus icon'></i> -->
+            <!-- <div class="logo_name">Y Đức Dental Clinic</div> -->
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li>
+                <i class='bx bx-search'></i>
+                <input type="text" placeholder="Search...">
+                <span class="tooltip">Search</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <!-- <li>
+                <a href="#">
+                    <i class='bx bx-user'></i>
+                    <span class="links_name">User</span>
+                </a>
+                <span class="tooltip">User</span>
+            </li> -->
+            <!-- <li>
+                <a href="#">
+                    <i class='bx bx-chat'></i>
+                    <span class="links_name">Messages</span>
+                </a>
+                <span class="tooltip">Messages</span>
+            </li> -->
+            <li>
+                <a href="appointment">
+                    <i class='bx bx-pie-chart-alt-2'></i>
+                    <span class="links_name">Xem lịch hẹn</span>
+                </a>
+                <span class="tooltip">Xem lịch hẹn</span>
+            </li>
+            <li>
+                <a href="service">
+                    <i class='bx bx-folder'></i>
+                    <span class="links_name">Xem dịch vụ</span>
+
+                </a>
+                <span class="tooltip">Xem dịch vụ</span>
+            </li>
+            <!-- <li>
+                <a href="#">
+                    <i class='bx bx-cart-alt'></i>
+                    <span class="links_name">Order</span>
+                </a>
+                <span class="tooltip">Order</span>
+            </li> -->
+            <li>
+                <a href="profile" id="viewProfileLink">
+                    <i class='bx bx-heart'></i>
+                    <span class="links_name">Hồ sơ</span>
+                </a>
+                <span class="tooltip">Hồ sơ</span>
+            </li>
+            <!-- <li>
+                <a href="#">
+                    <i class='bx bx-cog'></i>
+                    <span class="links_name">Cài đặt</span>
+                </a>
+                <span class="tooltip">Cài đặt</span>
+            </li> -->
+            <li class="profile">
+                <div class="profile-details">
+                    <div class="name_job">
+                        <div class="name">
+                            <%= user.hoten %>
+                        </div>
+                        <div class="job">Customer</div>
+                    </div>
+                </div>
+                <i class='bx bx-log-out' id="log_out"></i>
+            </li>
+        </ul>
+    </div>
+
+    <div class="table-container" id="tableContainer">
+        <table class="appointment-table">
+            <thead>
+                <tr>
+                    <th>Loại Điều Trị</th>
+                    <th>Đơn Vị</th>
+                    <th>Đơn Giá</th>
+                    <th>Thời gian bảo hành</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i=0; i < Services.length ;i++) { %>
+                    <tr>
+                        <td><%= Services[i].loaidieutri %></td>
+                        <td><%= Services[i].donvi %></td>
+                        <td><%= Services[i].dongia %></td>
+                        <td><%= Services[i].ThoiGianBaoHanh %></td>
+
+                        <td><button class="service-select">Chọn</button></td>
+                    <%}%>
+                </tr>
+            </tbody>
+        </table>
+        
+        <button id="doneButton" class="done-button">Xong</button>
+    </div>
+    <form id="appointmentForm" style="display: none;">
+        <label for="dentist">Nha sĩ</label>
+        <select id="dentist" required>
+            <option value="">Chọn nha sĩ</option>
+            <!-- Thêm các tùy chọn nha sĩ ở đây -->
+        </select>
+        <br>
+        <label for="date">Ngày</label>
+        <select id="date" required>
+            <option value="">Chọn ngày</option>
+        </select>
+        <br>
+        <label for="time">Giờ</label>
+        <select id="time" required>
+            <option value="">Chọn thời gian</option>
+        </select>
+        <br>
+        <button type="submit">Đặt lịch khám</button>
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.service-select').forEach(button => {
+                button.addEventListener('click', function() {
+
+                    this.classList.toggle('selected');
+
+                    if (this.classList.contains('selected')) {
+                        this.textContent = 'Hủy';
+                    } else {
+                        this.textContent = 'Chọn';
+                    }
+                });
+            });
+        
+            document.getElementById('doneButton').addEventListener('click', function() {
+                document.getElementById('table-container').style.display = 'none'; // Hide the table
+                document.getElementById('appointmentForm').style.display = 'block'; // Show the form
+            });
+        });
+    </script>
+    <script>
+        const dentists = [
+            { id: 1, name: "Dr. Nguyen Van A" },
+            { id: 2, name: "Dr. Tran Thi B" },
+            // Thêm các nha sĩ khác ở đây
+        ];
+
+        const scheduleDetails = [
+            // Ví dụ dữ liệu chi tiết ca làm việc
+            { dentistId: 1, date: "2024-07-05", times: ["09:00", "10:00", "11:00"] },
+            { dentistId: 1, date: "2024-07-06", times: ["09:00", "10:00"] },
+            { dentistId: 2, date: "2024-07-05", times: ["14:00", "15:00"] },
+            // Thêm các chi tiết ca làm việc khác ở đây
+        ];
+
+        function populateDentists() {
+            const dentistSelect = document.getElementById('dentist');
+            dentists.forEach(dentist => {
+                const option = document.createElement('option');
+                option.value = dentist.id;
+                option.textContent = dentist.name;
+                dentistSelect.appendChild(option);
+            });
+        }
+
+        function populateDates() {
+            const today = new Date();
+            const dateSelect = document.getElementById('date');
+            for (let i = 0; i < 14; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i);
+                const option = document.createElement('option');
+                option.value = date.toISOString().split('T')[0];
+                option.textContent = date.toISOString().split('T')[0];
+                dateSelect.appendChild(option);
+            }
+        }
+
+        function populateTimes() {
+            const dentistId = parseInt(document.getElementById('dentist').value);
+            const date = document.getElementById('date').value;
+            const timeSelect = document.getElementById('time');
+            timeSelect.innerHTML = '<option value="">Chọn thời gian</option>';
+
+            if (dentistId && date) {
+                const availableTimes = scheduleDetails.find(detail => detail.dentistId === dentistId && detail.date === date);
+                if (availableTimes) {
+                    availableTimes.times.forEach(time => {
+                        const option = document.createElement('option');
+                        option.value = time;
+                        option.textContent = time;
+                        timeSelect.appendChild(option);
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateDentists();
+            populateDates();
+
+            document.getElementById('dentist').addEventListener('change', populateTimes);
+            document.getElementById('date').addEventListener('change', populateTimes);
+        });
+
+        document.getElementById('appointmentForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            // Xử lý logic đặt lịch khám tại đây
+            alert('Lịch khám của bạn đã được đặt thành công!');
+        });
+    </script>
+
+
+    <script>
+        let sidebar2 = document.querySelector(".sidebar");
+        let closeBtn2 = document.querySelector("#btn");
+        let searchBtn2 = document.querySelector(".bx-search");
+        closeBtn2.addEventListener("click", () => {
+            sidebar2.classList.toggle("open");
+            menuBtnChange();//calling the function(optional)
+        });
+        searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
+            sidebar2.classList.toggle("open");
+            menuBtnChange(); //calling the function(optional)
+        });
+        // following are the code to change sidebar button(optional)
+        function menuBtnChange() {
+            if (sidebar2.classList.contains("open")) {
+                closeBtn2.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+            } else {
+                closeBtn2.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
+            }
+        }    
+    </script>
+    <script>
+        document.getElementById('log_out').addEventListener('click', function() {
+            window.location.href = '/'; // Thay đổi URL này thành URL trang chủ của bạn
+        });
+    </script>
+    <!-- 
+        - #HERO
+      -->
+
+    <!-- 
+        - #SERVICE
+      -->
+    <!-- 
+        - #DOCTOR
+      -->
+
+
+
+    <!-- 
+    - #FOOTER
+  -->
+
+    <!-- #BACK TO TOP
+  -->
+
+    <a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
+        <ion-icon name="caret-up" aria-hidden="true"></ion-icon>
+    </a>
+
+
+
+    <!-- 
+    - custom js link
+  -->
+    <script src="./assets/js/script.js" defer></script>
+
+    <!-- 
+    - ionicon link
+  -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
