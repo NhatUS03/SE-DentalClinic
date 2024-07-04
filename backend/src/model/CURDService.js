@@ -33,9 +33,19 @@ const GetDetailedAppointment = async (req, res) => {
     const pool = await createConnectionPool(sqlConfig);
     
     const result = await pool.query`
-        select lh.ngaygiohen,lh.ThoiGianYeuCau,dm.LoaiDieuTri,ns.TenNhaSi,lh.TinhTrang
+        select lh.malichhen, lh.ngaygiohen,lh.ThoiGianYeuCau,dm.LoaiDieuTri,ns.TenNhaSi,lh.TinhTrang
         from lichhen as lh join nhasi as Ns on lh.NhaSiKham=ns.MaNhaSi join DanhMucDieuTri as dm on dm.MaDieuTri=lh.MaDieuTri
         where MaBenhNhan=${req.session.user.id}`;
+    return result.recordset;
+}
+
+const GetUnConfirmAppointment = async (req, res) => {
+    const pool = await createConnectionPool(sqlConfig);
+    
+    const result = await pool.query`
+        select lh.malichhen, lh.ngaygiohen,lh.ThoiGianYeuCau,dm.LoaiDieuTri,ns.TenNhaSi,lh.TinhTrang
+        from lichhen as lh join nhasi as Ns on lh.NhaSiKham=ns.MaNhaSi join DanhMucDieuTri as dm on dm.MaDieuTri=lh.MaDieuTri
+        where lh.TinhTrang= N'Chờ Duyệt'`;
     return result.recordset;
 }
 
@@ -65,5 +75,5 @@ const GetCustomer=async(req,res)=>
     const result= await pool.query`select * from BenhNhan`
     return result.recordset
 }
-module.exports={GetInFoDentist,GetDetailedAppointment,GetService,GetShift,GetStaff,GetCustomer}
+module.exports={GetInFoDentist,GetDetailedAppointment, GetUnConfirmAppointment,GetService,GetShift,GetStaff,GetCustomer}
 

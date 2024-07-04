@@ -11,7 +11,7 @@ const {RenderServicePage,RenderDenstistPage,RenderStaffPage,
 
 //CustomerController
 const {AppointmentHandler,CustomerMakeAppointmentHandler,
-    CustomerRenderServicePage,CustomerProfileSettingHandler, PostCustomerMakeAppointmentHandler}=require('../controller/customerController')
+    CustomerRenderServicePage,CustomerProfileSettingHandler, PostCustomerMakeAppointmentHandler, CustomerCancelAppointmentHandler}=require('../controller/customerController')
 
 //DentistController
 const {DentistAppointmentHandler,DentistRemindAppointmentHandler,
@@ -19,7 +19,7 @@ const {DentistAppointmentHandler,DentistRemindAppointmentHandler,
 
 //StaffController
 const {StaffRenderDashboardPage,StaffAppointmentHandler,StaffPatientRecordHandler,
-                StaffAccountSettingHandler}=require('../controller/staffController')
+                StaffAccountSettingHandler, StaffConfirmAppointmentHandler,StaffCancelAppointmentHandler}=require('../controller/staffController')
 //AuthController
 const authController = require('../controller/authController');
 const router=express.Router()
@@ -45,6 +45,7 @@ router.get('/customer/profile',CustomerProfileSettingHandler)
 router.get('/customer/appointment',AppointmentHandler)
 router.get('/customer/make-appointment',CustomerMakeAppointmentHandler)
 router.post('/customer/make-appointment', PostCustomerMakeAppointmentHandler)
+router.post('/customer/cancel-appointment', CustomerCancelAppointmentHandler);
 
 
 // Admin 
@@ -68,4 +69,6 @@ router.get('/staff/dashboard',StaffRenderDashboardPage)
 router.get('/staff/appointment',StaffAppointmentHandler)
 router.get('/staff/patient-record',StaffPatientRecordHandler)
 router.get('/staff/setting',StaffAccountSettingHandler)
+router.post('/staff/confirm-appointment', StaffConfirmAppointmentHandler);
+router.post('/staff/cancel-appointment', StaffCancelAppointmentHandler);
 module.exports = router;

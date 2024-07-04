@@ -2004,6 +2004,21 @@ body {
 }
 
 
+
+.confirm-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background-color: darkgreen;
+}
+
+
 .appointment-list {
   margin: 20px;
 }
