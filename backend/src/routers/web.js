@@ -11,7 +11,7 @@ const {RenderServicePage,RenderDenstistPage,RenderStaffPage,
 
 //CustomerController
 const {AppointmentHandler,CustomerMakeAppointmentHandler,
-    CustomerRenderServicePage,CustomerProfileSettingHandler}=require('../controller/customerController')
+    CustomerRenderServicePage,CustomerProfileSettingHandler, PostCustomerMakeAppointmentHandler}=require('../controller/customerController')
 
 //DentistController
 const {DentistAppointmentHandler,DentistRemindAppointmentHandler,
@@ -44,6 +44,8 @@ router.get('/customer/service', CustomerRenderServicePage)
 router.get('/customer/profile',CustomerProfileSettingHandler)
 router.get('/customer/appointment',AppointmentHandler)
 router.get('/customer/make-appointment',CustomerMakeAppointmentHandler)
+router.post('/customer/make-appointment', PostCustomerMakeAppointmentHandler)
+
 
 // Admin 
 router.get('/admin/service',RenderServicePage)

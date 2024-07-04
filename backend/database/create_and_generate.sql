@@ -112,7 +112,7 @@ create table DanhMucDieuTri(
 -- LichHen(MaLichHen, NgayGioHen, Phong, GhiChu, ThoiGianYeuCau, NhaSiKham, MaBenhNhan,MaDieuTri)
 -- Foreign Key: (NhaSiKham) (MaBenhNhan) (MaDieuTri)
 create table LichHen(
-    MaLichHen int primary key,
+    MaLichHen int IDENTITY(1,1) primary key,
     NgayGioHen datetime,
     Phong nvarchar(30),
     GhiChu nvarchar(50),

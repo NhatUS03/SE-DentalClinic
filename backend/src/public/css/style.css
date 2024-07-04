@@ -279,6 +279,9 @@
     background-color: var(--white);
     color: var(--sonic-silver);
     font-size: 1.5rem;
+
+
+    
   }
   
   
@@ -2101,4 +2104,46 @@ h2 {
   cursor: pointer;
   float: right;
   margin-top: 10px;
+}
+
+
+
+
+
+
+.styled-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  margin: 40px auto;
+}
+
+.styled-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.styled-select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.styled-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.styled-button:hover {
+  background-color: #45a049;
 }

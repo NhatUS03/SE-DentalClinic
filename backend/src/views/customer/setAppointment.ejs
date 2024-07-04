@@ -162,7 +162,7 @@
         </ul>
     </div>
 
-    <div class="table-container" id="tableContainer">
+    <div class="table-container" id="table-container">
         <table class="appointment-table">
             <thead>
                 <tr>
@@ -175,44 +175,66 @@
             </thead>
             <tbody>
                 <% for (let i=0; i < Services.length ;i++) { %>
-                    <tr>
+                    <tr id ="<%= Services[i].madieutri %>">
                         <td><%= Services[i].loaidieutri %></td>
                         <td><%= Services[i].donvi %></td>
                         <td><%= Services[i].dongia %></td>
                         <td><%= Services[i].ThoiGianBaoHanh %></td>
 
                         <td><button class="service-select">Chọn</button></td>
+                    </tr>
                     <%}%>
-                </tr>
             </tbody>
         </table>
         
         <button id="doneButton" class="done-button">Xong</button>
     </div>
-    <form id="appointmentForm" style="display: none;">
-        <label for="dentist">Nha sĩ</label>
-        <select id="dentist" required>
+    <form id="appointmentForm" class="styled-form" style="display: none;" method="post" action="make-appointment">
+        <label for="dentist" class="styled-label">Nha sĩ</label>
+        <select id="dentist" class="styled-select" name="dentist" required>
             <option value="">Chọn nha sĩ</option>
-            <!-- Thêm các tùy chọn nha sĩ ở đây -->
+            <% for (let i=0; i < Dentists.length ;i++) { %>
+                <option value ="<%= Dentists[i].MaNhaSi %>"><%= Dentists[i].TenNhaSi %></option>
+            <%}%>
         </select>
         <br>
-        <label for="date">Ngày</label>
-        <select id="date" required>
-            <option value="">Chọn ngày</option>
+        <label for="date" class="styled-label">Ngày</label>
+        <select id="date" class="styled-select" required name="date">
+            <option value="">Chọn ngày khám</option>
+        </select>
+
+        <br>
+        <label for="time" class="styled-label">Giờ</label>
+        <select id="time" class="styled-select" required name="hour">
+            <option value="">Chọn giờ khám</option>
+            <option value="8:00">8:00 - 10:00</option>
+            <option value="10:00">10:00 - 12:00</option>
+            <option value="12:00">12:00 - 14:00</option>
+            <option value="14:00">14:00 - 16:00</option>
+            <option value="16:00">16:00 - 18:00</option>
+
         </select>
         <br>
-        <label for="time">Giờ</label>
-        <select id="time" required>
-            <option value="">Chọn thời gian</option>
-        </select>
-        <br>
-        <button type="submit">Đặt lịch khám</button>
+        <button type="submit" class="styled-button">Đặt lịch khám</button>
     </form>
     <script>
+        const allServices = document.querySelectorAll('.service-select');
+
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.service-select').forEach(button => {
                 button.addEventListener('click', function() {
-
+                    const isSelected = this.classList.contains('selected');
+                    if (isSelected)
+                        allServices.forEach(button => {
+                            button.classList.remove('selected');
+                            button.textContent = 'Chọn';
+                        });
+                    else 
+                        allServices.forEach(button => {
+                            button.classList.remove('selected');
+                            button.textContent = 'Chọn';
+                        });
+                        
                     this.classList.toggle('selected');
 
                     if (this.classList.contains('selected')) {
@@ -224,35 +246,22 @@
             });
         
             document.getElementById('doneButton').addEventListener('click', function() {
-                document.getElementById('table-container').style.display = 'none'; // Hide the table
+                const selectedService = document.querySelector('.service-select.selected');
+                const form = document.getElementById('appointmentForm');
+                var hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "service";
+                console.log(selectedService)
+                hiddenInput.value = selectedService.parentElement.parentElement.id;
+
+                form.appendChild(hiddenInput);
                 document.getElementById('appointmentForm').style.display = 'block'; // Show the form
+                document.getElementById('table-container').style.display = 'none'; // Hide the table
+                
             });
         });
     </script>
     <script>
-        const dentists = [
-            { id: 1, name: "Dr. Nguyen Van A" },
-            { id: 2, name: "Dr. Tran Thi B" },
-            // Thêm các nha sĩ khác ở đây
-        ];
-
-        const scheduleDetails = [
-            // Ví dụ dữ liệu chi tiết ca làm việc
-            { dentistId: 1, date: "2024-07-05", times: ["09:00", "10:00", "11:00"] },
-            { dentistId: 1, date: "2024-07-06", times: ["09:00", "10:00"] },
-            { dentistId: 2, date: "2024-07-05", times: ["14:00", "15:00"] },
-            // Thêm các chi tiết ca làm việc khác ở đây
-        ];
-
-        function populateDentists() {
-            const dentistSelect = document.getElementById('dentist');
-            dentists.forEach(dentist => {
-                const option = document.createElement('option');
-                option.value = dentist.id;
-                option.textContent = dentist.name;
-                dentistSelect.appendChild(option);
-            });
-        }
 
         function populateDates() {
             const today = new Date();
@@ -266,36 +275,12 @@
                 dateSelect.appendChild(option);
             }
         }
-
-        function populateTimes() {
-            const dentistId = parseInt(document.getElementById('dentist').value);
-            const date = document.getElementById('date').value;
-            const timeSelect = document.getElementById('time');
-            timeSelect.innerHTML = '<option value="">Chọn thời gian</option>';
-
-            if (dentistId && date) {
-                const availableTimes = scheduleDetails.find(detail => detail.dentistId === dentistId && detail.date === date);
-                if (availableTimes) {
-                    availableTimes.times.forEach(time => {
-                        const option = document.createElement('option');
-                        option.value = time;
-                        option.textContent = time;
-                        timeSelect.appendChild(option);
-                    });
-                }
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            populateDentists();
             populateDates();
 
-            document.getElementById('dentist').addEventListener('change', populateTimes);
-            document.getElementById('date').addEventListener('change', populateTimes);
         });
 
         document.getElementById('appointmentForm').addEventListener('submit', (event) => {
-            event.preventDefault();
             // Xử lý logic đặt lịch khám tại đây
             alert('Lịch khám của bạn đã được đặt thành công!');
         });
