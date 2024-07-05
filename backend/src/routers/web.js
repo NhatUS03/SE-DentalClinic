@@ -6,7 +6,7 @@ const { getHomePage,RegisterHandler,logoutHandler,LoginAsAdmin,LoginAsCustomer
 
 //AdminController
 const {RenderServicePage,RenderDenstistPage,RenderStaffPage,
-    RenderCustomerPage,RenderDashboardPage}=require('../controller/adminController')
+    RenderCustomerPage,RenderDashboardPage,handleDeleteService,AddServiceHandler}=require('../controller/adminController')
 
 
 //CustomerController
@@ -53,7 +53,8 @@ router.get('/admin/dentist',RenderDenstistPage)
 router.get('/admin/staff',RenderStaffPage)
 router.get('/admin/customer',RenderCustomerPage)
 router.get('/admin/dashboard',RenderDashboardPage)
-
+router.post('/admin/service/delete',handleDeleteService)
+router.post('/admin/service/add',AddServiceHandler)
 
 
 // Dentist
