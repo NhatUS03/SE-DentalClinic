@@ -35,7 +35,7 @@
 
     <!----===== Boxicons CSS ===== -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!--<title>Dashboard Sidebar Menu</title>-->
 </head>
 
@@ -79,7 +79,7 @@
         <div class="header-bottom" data-header>
             <div class="container">
 
-        
+
                 <button class="nav-toggle-btn" aria-label="Toggle menu" data-nav-toggler>
                     <ion-icon name="menu-sharp" aria-hidden="true" class="menu-icon"></ion-icon>
                     <ion-icon name="close-sharp" aria-hidden="true" class="close-icon"></ion-icon>
@@ -141,7 +141,9 @@
             <li class="profile">
                 <div class="profile-details">
                     <div class="name_job">
-                        <div class="name"><%user.hoten%></div>
+                        <div class="name">
+                            <%user.hoten%>
+                        </div>
                         <div class="job">Admin</div>
                     </div>
                 </div>
@@ -149,7 +151,42 @@
             </li>
         </ul>
     </div>
-    
+    <div class="dashboard">
+        <div class="top-row">
+            <div class="card" id="totalCustomers">
+                <h2>Tổng Số Khách Hàng</h2>
+                <span id="totalCustomersCount">0</span>
+            </div>
+            <div class="card" id="totalEmployees">
+                <h2>Tổng Số Nhân Viên</h2>
+                <span id="totalEmployeesCount">0</span>
+            </div>
+            <div class="card" id="totalDentists">
+                <h2>Tổng Số Nha Sĩ</h2>
+                <span id="totalDentistsCount">0</span>
+            </div>
+        </div>
+        <div class="middle-row">
+            <div class="chart-container">
+                <h2>Lượng Khách Hàng Qua Tháng</h2>
+                <canvas id="customersOverTime"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2>Phân bố top 5 dịch vụ hay sử dụng</h2>
+                <canvas id="employeeStructure"></canvas>
+            </div>
+        </div>
+        <div class="bottom-row">
+            <div class="chart-container" >
+                <h2>Phân bố học vấn bác sĩ</h2>
+                <canvas id="dentistEducation"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2>Phân bố vị trí nhân viên</h2>
+                <canvas id="mostBookedTreatments"></canvas>
+            </div>
+        </div>
+    </div>
     <script>
         let sidebar2 = document.querySelector(".sidebar");
         let closeBtn2 = document.querySelector("#btn");
@@ -172,15 +209,266 @@
         }
     </script>
     <script>
-        document.getElementById('log_out').addEventListener('click', function() {
+        document.getElementById('log_out').addEventListener('click', function () {
             window.location.href = '/'; // Thay đổi URL này thành URL trang chủ của bạn
         });
     </script>
+    <script>
+        // script.js
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get data
+            
+            const totalCustomers =  <%= dashboard.countCustomer %>;
+            const totalEmployees =<%= dashboard.countStaff %>;
+            const totalDentists =<%= dashboard.countDentist %>;
+            const customerByMonthData = <%= JSON.stringify(dashboard.countCustomerThroughMonth) %>;
+            const StaffPosition = <%= JSON.stringify(dashboard.countStaffByPosition) %>;
+            const DentistQualification = <%= JSON.stringify(dashboard.countDentistByQualification) %>;
+            const BestSellerName = <%- JSON.stringify(dashboard.countTop5ServiceBestSeller.name) %>;
+            const BestSellerCount = <%= JSON.stringify(dashboard.countTop5ServiceBestSeller.count) %>;
+            // Set values
+            document.getElementById('totalCustomersCount').textContent = totalCustomers;
+            document.getElementById('totalEmployeesCount').textContent = totalEmployees;
+            document.getElementById('totalDentistsCount').textContent = totalDentists;
+
+            // Customer over time data
+            const customersOverTimeData = {
+                labels:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Customers',
+                    data: customerByMonthData,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                }]
+            };
+
+            // Top 5 best seller data
+            const employeeStructureData = {
+                labels: BestSellerName,
+                datasets: [{
+                    label: 'Employees',
+                    data: BestSellerCount,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            // Dentist education data
+            const dentistEducationData = {
+                labels: ['Cử Nhân', 'Thạc Sĩ', 'Tiến Sĩ'],
+                datasets: [{
+                    label: 'Dentists',
+                    data: DentistQualification,
+                    backgroundColor: [
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            // Most booked treatments data
+            const mostBookedTreatmentsData = {
+                labels: ['Lễ Tân','Thu Ngân'],
+                datasets: [{
+                    label: 'Treatments',
+                    data: StaffPosition,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            // Line Chart
+            new Chart(document.getElementById('customersOverTime'), {
+                type: 'line',
+                data: customersOverTimeData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Month'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Customers'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // Tắt legend
+                        }
+                    },
+                }
+            });
+
+            // Bar Chart for Employee Structure
+            new Chart(document.getElementById('employeeStructure'), {
+                type: 'bar',
+                data: employeeStructureData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: false,
+                                text: 'Position'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Employees'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // Tắt legend
+                        }
+                    }
+                }
+            });
+
+            // Pie Chart for Dentist Education
+            new Chart(document.getElementById('dentistEducation'), {
+                type: 'pie',
+                data: dentistEducationData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+
+            // Pie Chart for Most Booked Treatments
+            new Chart(document.getElementById('mostBookedTreatments'), {
+                type: 'pie',
+                data: mostBookedTreatmentsData,
+                maintainAspectRatio: false,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
 
 
+    <style>
+        
+        .dashboard {
+            display: grid;
+            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            width: 90%;
+            max-width: 1200px;
+            margin :50px auto;
+        }
 
+        .top-row {
+            grid-column: span 3;
+            display: flex;
+            justify-content: space-between;
+            height: 25vh;
+            margin-bottom: 20px;
+        }
 
+        .middle-row
+        {
+            margin-top:-90px;
+            grid-column: span 3;
+            display: flex;
+            justify-content: space-between;
+            height: 40vh;
+            text-align: center;
+        }
+        .bottom-row {
+            margin-top:-40px;
+            grid-column: span 3;
+            display: flex;
+            justify-content: space-between;
+            height: 40vh;
+            text-align: center;
+        }
 
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            flex: 0.5;
+            margin: 10px 10px;
+        }
+
+        .card h2 {
+            margin: 0 0 10px;
+        }
+
+        .card span {
+            font-weight: bold;
+            font-size: 3em;
+            color: #333;
+        }
+
+        .chart-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            margin: 0 10px;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
     <!-- 
         - #HERO
       -->

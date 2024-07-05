@@ -1,9 +1,19 @@
-const {GetInFoDentist,GetDetailedAppointment,GetService,GetShift,GetStaff,GetCustomer,deleteService,AddService
-    ,AddStaff,deleteStaff,AddDentist,deleteDentist,AddCustomer,deleteCustomer}=require('../model/CURDService')
+
 const sql=require('mssql')
 const sqlConfig=require('../config/database')
 const BenhNhan = require('../model/Customer');
 const bcrypt = require('bcryptjs');
+
+// For Admin Page
+const {GetInFoDentist,GetDetailedAppointment,GetService,GetShift,GetStaff,GetCustomer,deleteService,AddService
+    ,AddStaff,deleteStaff,AddDentist,deleteDentist,AddCustomer,deleteCustomer}=require('../model/CURDService')
+
+
+//For Dashboard
+const {CountCustomer,CountStaff,CountDentist,CountCustomerThroughMonth,
+    CountStaffByPosition,CountDentistByQualification,CountTop5ServiceBestSeller}=require('../model/DashboardService')
+
+
 
 //Service Handler
 
@@ -164,7 +174,31 @@ const RenderDashboardPage= async(req,res)=>{
     if (!req.session.user) {
         return res.redirect('/login');
     }
-    return res.render('admin/dashboard.ejs',{user:req.session.user})
+
+    //Integer type
+    const countCustomer=await CountCustomer()
+    const countStaff=await CountStaff()
+    const countDentist=await CountDentist()
+
+    //Array type
+    const countCustomerThroughMonth=await CountCustomerThroughMonth()
+    const countStaffByPosition=await CountStaffByPosition()
+    const countDentistByQualification=await CountDentistByQualification()
+
+    //Object type
+    const countTop5ServiceBestSeller=await CountTop5ServiceBestSeller()
+
+    const _dashboard_data={
+        countCustomer:countCustomer,
+        countStaff:countStaff,
+        countDentist:countDentist,
+        countCustomerThroughMonth:countCustomerThroughMonth,
+        countStaffByPosition:countStaffByPosition,
+        countDentistByQualification:countDentistByQualification,
+        countTop5ServiceBestSeller:countTop5ServiceBestSeller
+    }
+    return res.render('admin/dashboard.ejs',{user:req.session.user,dashboard:_dashboard_data})
+
 }
 module.exports={RenderServicePage,RenderDenstistPage,RenderStaffPage,RenderCustomerPage,RenderDashboardPage,
     handleDeleteService,AddServiceHandler,AddDentistHandler,handleDeleteDentist,AddStaffHandler,handleDeleteStaff,
