@@ -65,11 +65,13 @@ const LoginAsAdmin=(req,res)=>{
     }
     res.render('admin/admin.ejs',{user:req.session.user})
 }
-const LoginAsCustomer=(req,res)=>{
+const LoginAsCustomer = async (req,res)=>{
+    
     if (!req.session.user) {
         return res.redirect('/login');
     }
-    res.render('customer/customer.ejs',{user:req.session.user})
+    ListDentists= await GetInFoDentist()
+    res.render('customer/customer.ejs',{user:req.session.user,ListDentists:ListDentists})
 }
 const LoginAsStaff=(req,res)=>{
     if (!req.session.user) {
