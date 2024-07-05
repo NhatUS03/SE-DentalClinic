@@ -70,6 +70,12 @@
                     <li class="message">
                         <ion-icon name="chatbox-ellipses-outline"></ion-icon>
                         <!-- <a href="message" class="contact-link">Tin Nhắn</a> -->
+                    </li>
+                    <li class="homepage-icon">
+                      <a href="/customer">
+                      <ion-icon name="home-outline"></ion-icon>
+                      </a>
+                  </li>
                 </ul>
 
 
@@ -117,89 +123,88 @@
 
     </header>
 
-
     <div class="sidebar">
-        <div class="logo-details">
-            <!-- <i class='bx bxl-c-plus-plus icon'></i> -->
-            <!-- <div class="logo_name">Y Đức Dental Clinic</div> -->
-            <i class='bx bx-menu' id="btn"></i>
-        </div>
-        <ul class="nav-list">
-            <li>
-                <i class='bx bx-search'></i>
-                <input type="text" placeholder="Search...">
-                <span class="tooltip">Search</span>
-            </li>
-            <li>
-                <a href="/">
-                    <i class='bx bx-grid-alt'></i>
-                    <span class="links_name">Dashboard</span>
-                </a>
-                <span class="tooltip">Dashboard</span>
-            </li>
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bx-user'></i>
-                    <span class="links_name">User</span>
-                </a>
-                <span class="tooltip">User</span>
-            </li> -->
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bx-chat'></i>
-                    <span class="links_name">Messages</span>
-                </a>
-                <span class="tooltip">Messages</span>
-            </li> -->
-            <li>
-                <a href="appointment">
-                    <i class='bx bx-pie-chart-alt-2'></i>
-                    <span class="links_name">Xem lịch hẹn</span>
-                </a>
-                <span class="tooltip">Xem lịch hẹn</span>
-            </li>
-            <li>
-                <a href="service">
-                    <i class='bx bx-folder'></i>
-                    <span class="links_name">Xem dịch vụ</span>
+      <div class="logo-details">
+          <!-- <i class='bx bxl-c-plus-plus icon'></i> -->
+          <!-- <div class="logo_name">Y Đức Dental Clinic</div> -->
+          <i class='bx bx-menu' id="btn"></i>
+      </div>
+      <ul class="nav-list">
+          <li>
+              <i class='bx bx-search'></i>
+              <input type="text" placeholder="Search...">
+              <span class="tooltip">Search</span>
+          </li>
+          <!-- <li>
+              <a href="#">
+                  <i class='bx bx-grid-alt'></i>
+                  <span class="links_name">Dashboard</span>
+              </a>
+              <span class="tooltip">Dashboard</span>
+          </li> -->
+          <!-- <li>
+              <a href="#">
+                  <i class='bx bx-user'></i>
+                  <span class="links_name">User</span>
+              </a>
+              <span class="tooltip">User</span>
+          </li> -->
+          <!-- <li>
+              <a href="#">
+                  <i class='bx bx-chat'></i>
+                  <span class="links_name">Messages</span>
+              </a>
+              <span class="tooltip">Messages</span>
+          </li> -->
+          <li>
+              <a href="/customer/appointment">
+                  <i class='bx bx-pie-chart-alt-2'></i>
+                  <span class="links_name">Xem lịch hẹn</span>
+              </a>
+              <span class="tooltip">Xem lịch hẹn</span>
+          </li>
+          <li>
+              <a href="/customer/make-appointment">
+                  <i class='bx bx-folder'></i>
+                  <span class="links_name">Đặt lịch hẹn</span>
 
-                </a>
-                <span class="tooltip">Xem dịch vụ</span>
-            </li>
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bx-cart-alt'></i>
-                    <span class="links_name">Order</span>
-                </a>
-                <span class="tooltip">Order</span>
-            </li> -->
-            <li>
-                <a href="profile" id="viewProfileLink">
-                    <i class='bx bx-heart'></i>
-                    <span class="links_name">Hồ sơ</span>
-                </a>
-                <span class="tooltip">Hồ sơ</span>
-            </li>
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bx-cog'></i>
-                    <span class="links_name">Cài đặt</span>
-                </a>
-                <span class="tooltip">Cài đặt</span>
-            </li> -->
-            <li class="profile">
-                <div class="profile-details">
-                    <div class="name_job">
-                        <div class="name">
-                            <%= user.hoten %>
-                        </div>
-                        <div class="job">Customer</div>
-                    </div>
-                </div>
-                <i class='bx bx-log-out' id="log_out"></i>
-            </li>
-        </ul>
-    </div>
+              </a>
+              <span class="tooltip">Đặt lịch hẹn</span>
+          </li>
+          <!-- <li>
+              <a href="#">
+                  <i class='bx bx-cart-alt'></i>
+                  <span class="links_name">Order</span>
+              </a>
+              <span class="tooltip">Order</span>
+          </li> -->
+          <li>
+              <a href="/customer/profile" id="viewProfileLink">
+                  <i class='bx bx-heart'></i>
+                  <span class="links_name">Hồ sơ</span>
+              </a>
+              <span class="tooltip">Hồ sơ</span>
+          </li>
+          <!-- <li>
+              <a href="#">
+                  <i class='bx bx-cog'></i>
+                  <span class="links_name">Cài đặt</span>
+              </a>
+              <span class="tooltip">Cài đặt</span>
+          </li> -->
+          <li class="profile">
+              <div class="profile-details">
+                  <div class="name_job">
+                      <div class="name">
+                          <%= user.hoten %>
+                      </div>
+                      <div class="job">Customer</div>
+                  </div>
+              </div>
+              <i class='bx bx-log-out' id="log_out"></i>
+          </li>
+      </ul>
+  </div>
 
     <section class="section service" id="service" aria-label="service">
         <div class="container">
