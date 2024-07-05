@@ -1,4 +1,4 @@
-const {GetInFoDentist,GetDetailedAppointment, GetUnConfirmAppointment,GetService}=require('../model/CURDService')
+const {GetInFoDentist,GetDetailedAppointment, GetUnConfirmAppointment,GetService, GetCustomer}=require('../model/CURDService')
 const sql=require('mssql')
 const sqlConfig=require('../config/database')
 const BenhNhan = require('../model/Customer');
@@ -29,7 +29,8 @@ const StaffPatientRecordHandler=async(req,res)=>{
         return res.redirect('/login');
     }
     data=req.session.user
-    res.render('staff/patient-record.ejs',{user:data})
+    listCustomer=await GetCustomer(req,res)
+    res.render('staff/patient-record.ejs',{user:data, listCustomer:listCustomer})
 }
 const StaffAccountSettingHandler=async(req,res)=>{
     if (!req.session.user) {
