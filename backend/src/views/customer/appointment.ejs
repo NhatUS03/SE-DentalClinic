@@ -174,34 +174,37 @@
                     <th>Hành động</th>
                 </tr>
             </thead>
+            
             <tbody>
                 <% for (let i=0; i < Appointments.length ;i++) { %>
                     <tr>
-                        <td><%= Appointments[i].ThoiGianYeuCau %></td>
-                        <td><%= Appointments[i].ngaygiohen %></td>
+                        <td><%= new Date(Appointments[i].ThoiGianYeuCau).toLocaleDateString('en-GB') + ' ' + new Date(Appointments[i].ThoiGianYeuCau).toLocaleTimeString('en-US', { hour12: false }) %></td>
+
+                        <td><%= new Date(Appointments[i].ngaygiohen).toLocaleDateString('en-GB') + ' ' + new Date(Appointments[i].ngaygiohen).toLocaleTimeString('en-US', { hour12: false }) %></td>
                         <td><%= Appointments[i].LoaiDieuTri %></td>
                         <td><%= Appointments[i].TenNhaSi %></td>
-
+                        
                         <% if (Appointments[i].TinhTrang === "Đã Huỷ") { %>
                             <td class="status deleted">Đã Huỷ</td>
                         <% } else if (Appointments[i].TinhTrang === "Đã Duyệt") { %>
                             <td class="status confirmed">Đã xác nhận</td>
                         <% } else if (Appointments[i].TinhTrang === "Đã Khám") { %>
                             <td class="status completed">Đã Khám</td>
+                        <% } else if (Appointments[i].TinhTrang === "Đã Hủy") { %> <!-- Fixed the typo here -->
+                            <td class="status deleted">Đã Huỷ</td>
                         <% } else { %>
                             <td class="status pending">Chờ Duyệt</td>
                         <% } %>
                         
-                        
                         <!-- <td><%= Appointments[i].TinhTrang %></td> -->
                         <td>
-                            <button class="cancel-btn" 
-                                    data-service="<%= Appointments[i].LoaiDieuTri %>" 
-                                    data-doctor="<%= Appointments[i].TenNhaSi %>" 
-                                    data-date="<%= Appointments[i].ngaygiohen %>" 
-                                    data-time="<%= Appointments[i].ngaygiohen %>">
+                            <form action="cancel-appointment" method="POST">
+                                <input type="hidden" name="appointmentId"  value="<%= Appointments[i].malichhen %>">
+                                <button  type = 'submit' class="cancel-btn" >
                                     Hủy lịch hẹn
-                            </button>
+                                </button>
+                            </form>
+                            
                         </td>
                     <%}%>
                 </tr>
@@ -247,7 +250,7 @@
         }    
     </script>
 
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.cancel-btn').forEach(button => {
                 button.addEventListener('click', function() {
@@ -274,7 +277,7 @@
                 document.getElementById('confirmationModal').style.display = 'none';
             });
         });
-    </script>
+    </script> -->
     <script>
         document.getElementById('log_out').addEventListener('click', function() {
             window.location.href = '/'; // Thay đổi URL này thành URL trang chủ của bạn

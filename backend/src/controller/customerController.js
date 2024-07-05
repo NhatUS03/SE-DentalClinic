@@ -41,30 +41,67 @@ const CustomerProfileSettingHandler=async(req,res)=>{
 function getCurrentDateTime() {
     const now = new Date();
     
-    const year = now.getFullYear();
-    let month = now.getMonth() + 1; // Tháng bắt đầu từ 0
-    let day = now.getDate();
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
+    // Get the date and time in Vietnam (UTC+7)
+    const options = {
+        timeZone: 'Asia/Ho_Chi_Minh',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false // Use 24-hour format
+    };
     
-    // Đảm bảo rằng tháng, ngày, giờ, phút có dạng 2 chữ số
-    if (month < 10) {
-        month = '0' + month;
-    }
-    if (day < 10) {
-        day = '0' + day;
-    }
-    if (hours < 10) {
-        hours = '0' + hours;
-    }
-    if (minutes < 10) {
-        minutes = '0' + minutes;
+    // Format the date and time
+    const formatter = new Intl.DateTimeFormat('en-GB', options);
+    const parts = formatter.formatToParts(now);
+    
+    let year, month, day, hour, minute;
+    for (const part of parts) {
+        if (part.type === 'year') year = part.value;
+        if (part.type === 'month') month = part.value;
+        if (part.type === 'day') day = part.value;
+        if (part.type === 'hour') hour = part.value;
+        if (part.type === 'minute') minute = part.value;
     }
     
     // Định dạng theo yyyy-mm-dd hh:mm
-    const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+    const formattedDateTime = `${year}-${month}-${day} ${hour}:${minute}`;
     
     return formattedDateTime;
+}
+
+const CustomerCancelAppointmentHandler=async(req,res)=>{
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    
+    const appointmentId = req.body.appointmentId;
+    console.log('appointmentId:', appointmentId);
+    LichHen.findOne({ where: { MaLichHen: appointmentId } })
+    .then(lichHen => {
+        if (lichHen) {
+            // Cập nhật trường TinhTrang
+            lichHen.update({ TinhTrang: 'Đã Hủy' })
+                .then(updatedLichHen => {
+                    console.log('Đã cập nhật trạng thái lịch hẹn thành công.');
+                    // Xử lý khi cập nhật thành công
+                })
+                .catch(err => {
+                    console.error('Lỗi khi cập nhật trạng thái lịch hẹn:', err);
+                    // Xử lý khi cập nhật gặp lỗi
+                });
+        } else {
+            console.error('Không tìm thấy lịch hẹn có MaLichHen =', appointmentId);
+            // Xử lý khi không tìm thấy lịch hẹn
+        }
+    })
+    .catch(err => {
+        console.error('Lỗi khi tìm kiếm lịch hẹn:', err);
+        
+    });
+
+    return res.redirect('/customer/appointment');
 }
 
 const PostCustomerMakeAppointmentHandler = async (req, res) => {
@@ -105,5 +142,5 @@ const PostCustomerMakeAppointmentHandler = async (req, res) => {
 
 
 
-module.exports={AppointmentHandler,CustomerMakeAppointmentHandler,CustomerRenderServicePage,CustomerProfileSettingHandler, PostCustomerMakeAppointmentHandler}
+module.exports={AppointmentHandler,CustomerMakeAppointmentHandler,CustomerRenderServicePage,CustomerProfileSettingHandler, PostCustomerMakeAppointmentHandler, CustomerCancelAppointmentHandler}
 
