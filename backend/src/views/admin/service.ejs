@@ -35,7 +35,6 @@
 
     <!----===== Boxicons CSS ===== -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-
     <!--<title>Dashboard Sidebar Menu</title>-->
 </head>
 
@@ -69,6 +68,7 @@
                     </li>
                     <li class="message">
                         <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                    </li>
                         <!-- <a href="message" class="contact-link">Tin Nhắn</a> -->
                 </ul>
 
@@ -150,7 +150,8 @@
         </ul>
     </div>
 
-    <div class="table-container" id="tableContainer">
+    <!-- <div class="table-container" id="tableContainer">
+        <h1 id="service-title">Danh Sách Dịch Vụ</h1>
         <table class="appointment-table">
             <thead>
                 <tr>
@@ -168,14 +169,36 @@
                         <td><%= listService[i].donvi %></td>
                         <td><%= listService[i].dongia %></td>
                         <td><%= listService[i].ThoiGianBaoHanh %></td>
-
-                        <td><button class="service-select">Chi Tiết</button></td>
+                        <td >
+                            <button class="service-select" 
+                                    name-service="<%= listService[i].loaidieutri %>" 
+                                    unit-service="<%= listService[i].donvi %>" 
+                                    unit-cost-service="<%= listService[i].dongia %>" 
+                                    warranty-period-service="<%= listService[i].ThoiGianBaoHanh %>"
+                                    service-id="<%= listService[i].madieutri %>">
+                                    Xoá
+                            </button>
+                        </td>
                     <%}%>
                 </tr>
             </tbody>
         </table>
     </div>
-
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <h2>Xác Nhận Xoá Dịch Vụ</h2>
+            <div class="service-confirm">
+                <p><strong>Loại điều trị:</strong> <span id="service-name"></span></p>
+                <p><strong>Đơn vị:</strong> <span id="service-unit"></span></p>
+                <p><strong>Đơn giá:</strong> <span id="service-unit-cost"></span></p>
+                <p><strong>Thời gian bảo hành:</strong> <span id="service-warranty-period"></span></p>
+            </div>
+            <div class="buttons">
+                <button id="confirmCancelButton" class="cancel-button">Xoá</button>
+                <button id="closeModalButton" class="back-button">Quay lại</button>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -207,9 +230,248 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.service-select').forEach(button => {
+                button.addEventListener('click', function() {
+                
+                    const name = this.getAttribute('name-service');
+                    const unit = this.getAttribute('unit-service');
+                    const unitcost = this.getAttribute('unit-cost-service');
+                    const period = this.getAttribute('warranty-period-service');
+                    
+                
+                    document.getElementById('service-name').textContent = name;
+                    document.getElementById('service-unit').textContent = unit;
+                    document.getElementById('service-unit-cost').textContent = unitcost;
+                    document.getElementById('service-warranty-period').textContent = period;
+        
+                    document.getElementById('confirmationModal').style.display = 'flex';
+                });
+            });
+        
+            document.getElementById('closeModalButton').addEventListener('click', function() {
+                document.getElementById('confirmationModal').style.display = 'none';
+            });
+        
+            document.getElementById('confirmCancelButton').addEventListener('click', function() {
+                document.getElementById('confirmationModal').style.display = 'none';
+                //Send service id to server
+                const serviceId = document.querySelector('.service-select').getAttribute('service-id');
+                console.log(serviceId);
+                alert('Dịch Vụ Đã Được Xoá.');
+            });
+        });
+    
+    </script> -->
+    <div class="table-container" id="tableContainer">
+        <h1 id="service-title">Danh Sách Dịch Vụ</h1>
+        <table class="appointment-table">
+            
+            <thead>
+                <tr>
+                    <th>Loại Điều Trị</th>
+                    <th>Đơn Vị</th>
+                    <th>Đơn Giá</th>
+                    <th>Thời gian bảo hành</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i=0; i < listService.length ;i++) { %>
+                    <tr>
+                        <td><%= listService[i].loaidieutri %></td>
+                        <td><%= listService[i].donvi %></td>
+                        <td><%= listService[i].dongia %></td>
+                        <td><%= listService[i].ThoiGianBaoHanh %></td>
+                        <td>
+                            <button class="service-select" 
+                                    name-service="<%= listService[i].loaidieutri %>" 
+                                    unit-service="<%= listService[i].donvi %>" 
+                                    unit-cost-service="<%= listService[i].dongia %>" 
+                                    warranty-period-service="<%= listService[i].ThoiGianBaoHanh %>"
+                                    service-id="<%= listService[i].madieutri %>">
+                                    Xoá
+                            </button>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+        <button id="addServiceButton" class="floating-add-button">+</button>
+    </div>
+    
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <h2>Xác Nhận Xoá Dịch Vụ</h2>
+            <div class="service-confirm">
+                <p><strong>Loại điều trị:</strong> <span id="service-name"></span></p>
+                <p><strong>Đơn vị:</strong> <span id="service-unit"></span></p>
+                <p><strong>Đơn giá:</strong> <span id="service-unit-cost"></span></p>
+                <p><strong>Thời gian bảo hành:</strong> <span id="service-warranty-period"></span></p>
+            </div>
+            <div class="buttons">
+                <button id="confirmCancelButton" class="cancel-button">Xoá</button>
+                <button id="closeModalButton" class="back-button">Quay lại</button>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div class="modal" id="addServiceModal">
+    <div class="modal-content">
+        <h2>Thêm Danh Mục Điều Trị Mới</h2>
+        <form id="addServiceForm">
+            <p>Loại Điều Trị:</p>
+            <input type="text" id="newServiceName" name="loaidieutri" required>
+            <p>Đơn Vị:</p>
+            <input type="text" id="newServiceUnit" name="donvi" required>
+            <p>Đơn Giá:</p>
+            <input type="number" id="newServiceCost" name="dongia" required>
+            <p>Thời Gian Bảo Hành:</p>
+            <input type="text" id="newServiceWarranty" name="ThoiGianBaoHanh" required>
+            <div class="buttons">
+                <button type="submit" class="add-button">Thêm</button>
+                <button type="button" id="closeAddServiceModalButton" class="back-button">Quay lại</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    
 
 
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.service-select').forEach(button => {
+                button.addEventListener('click', function() {
+                    const name = this.getAttribute('name-service');
+                    const unit = this.getAttribute('unit-service');
+                    const unitcost = this.getAttribute('unit-cost-service');
+                    const period = this.getAttribute('warranty-period-service');
+                    const serviceId = this.getAttribute('service-id');
+                    
+                    document.getElementById('service-name').textContent = name;
+                    document.getElementById('service-unit').textContent = unit;
+                    document.getElementById('service-unit-cost').textContent = unitcost;
+                    document.getElementById('service-warranty-period').textContent = period;
+    
+                    // Store the serviceId in a data attribute on the confirm button
+                    document.getElementById('confirmCancelButton').setAttribute('data-service-id', serviceId);
+    
+                    document.getElementById('confirmationModal').style.display = 'flex';
+                });
+            });
+    
+            document.getElementById('closeModalButton').addEventListener('click', function() {
+                document.getElementById('confirmationModal').style.display = 'none';
+            });
+    
+            document.getElementById('confirmCancelButton').addEventListener('click', function() {
+                const serviceId = this.getAttribute('data-service-id');
+    
+                fetch('/admin/service/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ serviceId: serviceId }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Handle successful deletion (e.g., remove row from table, show success message, etc.)
+                        console.log('Service deleted successfully');
+                        document.querySelector(`button[service-id="${serviceId}"]`).closest('tr').remove();
+                        alert('Dịch Vụ Đã Được Xoá.');
+                    } else {
+                        // Handle error
+                        console.error('Error deleting service:', data.message);
+                        alert('Xoá dịch vụ thất bại.');
+                    }
+    
+                    // Close the modal
+                    document.getElementById('confirmationModal').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi xoá dịch vụ.');
+                    document.getElementById('confirmationModal').style.display = 'none';
+                });
+            });
+        });
+    </script>
+    
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('addServiceButton').addEventListener('click', function() {
+                document.getElementById('addServiceModal').style.display = 'flex';
+            });
+        
+            document.getElementById('closeAddServiceModalButton').addEventListener('click', function() {
+                document.getElementById('addServiceModal').style.display = 'none';
+            });
+        
+            document.getElementById('addServiceForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+        
+                const newService = {
+                    loaidieutri: document.getElementById('newServiceName').value,
+                    donvi: document.getElementById('newServiceUnit').value,
+                    dongia: document.getElementById('newServiceCost').value,
+                    ThoiGianBaoHanh: document.getElementById('newServiceWarranty').value
+                };
+        
+                fetch('/admin/service/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newService),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const tableBody = document.querySelector('.appointment-table tbody');
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td>${newService.loaidieutri}</td>
+                            <td>${newService.donvi}</td>
+                            <td>${newService.dongia}</td>
+                            <td>${newService.ThoiGianBaoHanh}</td>
+                            <td>
+                                <button class="service-select"
+                                        name-service="${newService.loaidieutri}"
+                                        unit-service="${newService.donvi}"
+                                        unit-cost-service="${newService.dongia}"
+                                        warranty-period-service="${newService.ThoiGianBaoHanh}"
+                                        service-id="${data.serviceId}">
+                                        Xoá
+                                </button>
+                            </td>
+                        `;
+                        tableBody.appendChild(newRow);
+        
+                        document.getElementById('addServiceForm').reset();
+                        document.getElementById('addServiceModal').style.display = 'none';
+                        alert('Danh Mục Điều Trị Mới Đã Được Thêm.');
+                    } else {
+                        alert('Thêm danh mục thất bại.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi thêm danh mục.');
+                });
+            });
+        });
+        
+        
+    </script>
 
     <!-- 
         - #HERO
@@ -248,6 +510,84 @@
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
+    <style>
+        .floating-add-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: hsl(218, 71%, 11%);;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .floating-add-button:hover {
+            background-color: #45a049;
+        }
+        .modal-content h2 {
+            color: #e53935;
+            margin-bottom: 20px;
+        }
+        
+        .modal-content p {
+            font-size: 16px;
+            color: #555;
+            margin: 10px 0;
+        }
+        
+        .modal-content input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .add-button, .back-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+        
+        .add-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .back-button {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .add-button:hover {
+            background-color: #45a049;
+        }
+        .back-button {
+            background-color: #45a049;
+            color: white;
+        }
+        .back-button:hover {
+            background-color: #e53935;
+        }
+    
+        
+       
+    </style>
 </body>
 
 </html>

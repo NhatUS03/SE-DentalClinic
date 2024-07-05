@@ -131,6 +131,20 @@
             </li>
         </ul>
     </div>
+    <div class="profile-card">
+        <div class="profile-image">
+            <img src="/image/image_user.jpg" alt="User Image">
+        </div>
+        <h2 class="profile-name"><%= user.hoten %></h2>
+        <div class="profile-info">
+            <p><strong>Họ Tên</strong><span><%= user.hoten %></span></p>
+            <p><strong>Loại Người Dùng</strong><span>Nhân Viên</span></p>
+            <p><strong>Ngày Sinh</strong><span><%= user.ngaysinh %></span></p>
+            <p><strong>Giới Tính</strong><span><%= user.gioitinh %></span></p>
+            <p><strong>Địa Chỉ</strong><span><%= user.diachi %></span></p>
+            <p><strong>Số Điện Thoại</strong><span><%= user.sdt %></span></p>
+        </div>
+    </div>
     <script>
         let sidebar2 = document.querySelector(".sidebar");
         let closeBtn2 = document.querySelector("#btn");
