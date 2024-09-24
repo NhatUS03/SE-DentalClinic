@@ -1,5 +1,4 @@
 # Dental Clinic 
-![Image description](mainpage.png)
 ## Get started 
 Please flow the step below
 ### 1.Download NodeJS and NPM package. [Install nodejs and npm with this doc.](https://vietdev.com/community/articles/cach-cai-dat-nodejs-va-npm-trong-windows-ubuntu-macos-XdHFis/)
